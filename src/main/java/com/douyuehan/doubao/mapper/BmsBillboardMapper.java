@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.douyuehan.doubao.model.entity.BmsBillboard;
 import org.springframework.stereotype.Repository;
 
-/**
+/** 公告
  * @author bing  @create 2021/3/1-2:38 下午
  */
 @Repository
