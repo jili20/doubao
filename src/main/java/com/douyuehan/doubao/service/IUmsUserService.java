@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.douyuehan.doubao.model.dto.LoginDTO;
 import com.douyuehan.doubao.model.dto.RegisterDTO;
 import com.douyuehan.doubao.model.entity.UmsUser;
+import com.douyuehan.doubao.model.vo.ProfileVO;
 
 /**
  * @author bing  @create 2021/3/2-12:31 下午
  */
+
 public interface IUmsUserService extends IService<UmsUser> {
 
     /**
@@ -37,5 +39,6 @@ public interface IUmsUserService extends IService<UmsUser> {
      * @param id 用户ID
      * @return
      */
-//    ProfileVO getUserProfile(String id);
+    ProfileVO getUserProfile(String id);
 }
+
