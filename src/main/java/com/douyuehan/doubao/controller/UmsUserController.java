@@ -70,4 +70,13 @@ public class UmsUserController extends BaseController {
         return ApiResult.success(user);
     }
 
+    /**
+     * 退出登录
+     * @return
+     */
+    @GetMapping("/logout")
+    public ApiResult<Object> logOut() {
+        return ApiResult.success(null, "注销成功");
+    }
+
 }
