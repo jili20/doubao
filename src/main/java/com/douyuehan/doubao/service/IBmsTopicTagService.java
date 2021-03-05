@@ -1,6 +1,7 @@
 package com.douyuehan.doubao.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.douyuehan.doubao.model.entity.BmsTag;
 import com.douyuehan.doubao.model.entity.BmsTopicTag;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface IBmsTopicTagService extends IService<BmsTopicTag> {
      * @param tags
      * @return
      */
-//    void createTopicTag(String id, List<BmsTag> tags);
+    void createTopicTag(String id, List<BmsTag> tags);
     /**
      * 获取标签换脸话题ID集合
      *
