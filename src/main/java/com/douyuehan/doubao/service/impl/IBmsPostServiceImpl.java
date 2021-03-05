@@ -150,6 +150,16 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, BmsPost> im
 
         return map;
     }
+
+    /**
+     * 随便看看模块
+     * @param id
+     * @return
+     */
+    @Override
+    public List<BmsPost> getRecommend(String id) {
+        return this.baseMapper.selectRecommend(id);
+    }
 }
 
 

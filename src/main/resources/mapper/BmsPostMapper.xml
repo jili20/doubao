@@ -41,4 +41,13 @@
         </if>
     </select>
 
+    <!--  随便看看模块 随机查询 10 个帖子，条件为 排除传入的 帖子 id -->
+    <select id="selectRecommend" resultType="com.douyuehan.doubao.model.entity.BmsPost">
+        select *
+        from bms_post t
+        where t.id != #{id}
+        order by rand(), t.view
+            limit 10
+    </select>
+
 </mapper>
