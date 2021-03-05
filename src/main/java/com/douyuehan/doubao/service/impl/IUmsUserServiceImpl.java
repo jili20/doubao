@@ -13,6 +13,7 @@ import com.douyuehan.doubao.model.vo.ProfileVO;
 import com.douyuehan.doubao.service.IUmsUserService;
 import com.douyuehan.doubao.utils.MD5Utils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,21 +78,27 @@ public class IUmsUserServiceImpl extends ServiceImpl<UmsUserMapper, UmsUser> imp
         return token;
     }
 
+    /**
+     * 查看帖子详情 获取作者信息
+     *
+     * @param id 用户ID
+     * @return
+     */
     @Override
     public ProfileVO getUserProfile(String id) {
-//        ProfileVO profile = new ProfileVO();
-//        UmsUser user = baseMapper.selectById(id);
-//        BeanUtils.copyProperties(user, profile);
-//        // 用户文章数
+        ProfileVO profile = new ProfileVO();
+        UmsUser user = baseMapper.selectById(id);
+        // 把 user 和 profile 一致的属性值，拷贝给 profile，
+        BeanUtils.copyProperties(user, profile);
+        // 用户文章数
 //        int count = bmsTopicMapper.selectCount(new LambdaQueryWrapper<BmsPost>().eq(BmsPost::getUserId, id));
 //        profile.setTopicCount(count);
-//
-//        // 粉丝数
+
+        // 粉丝数
 //        int followers = bmsFollowMapper.selectCount((new LambdaQueryWrapper<BmsFollow>().eq(BmsFollow::getParentId, id)));
 //        profile.setFollowerCount(followers);
-//
-        return null;
-//        return profile;
+
+        return profile;
     }
 }
 

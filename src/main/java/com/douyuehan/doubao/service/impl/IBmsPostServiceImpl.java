@@ -2,6 +2,7 @@ package com.douyuehan.doubao.service.impl;
 
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.douyuehan.doubao.mapper.BmsTagMapper;
@@ -13,6 +14,7 @@ import com.douyuehan.doubao.model.entity.BmsTag;
 import com.douyuehan.doubao.model.entity.BmsTopicTag;
 import com.douyuehan.doubao.model.entity.UmsUser;
 import com.douyuehan.doubao.model.vo.PostVO;
+import com.douyuehan.doubao.model.vo.ProfileVO;
 import com.douyuehan.doubao.service.IBmsPostService;
 import com.douyuehan.doubao.service.IBmsTagService;
 import com.douyuehan.doubao.service.IUmsUserService;
@@ -24,8 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -114,6 +115,41 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, BmsPost> im
         return topic;
     }
 
+    @Override
+    public Map<String, Object> viewTopic(String id) {
+        // 创建 map，因为要返回 map
+        Map<String, Object> map = new HashMap<>(16);
+        // 根据帖子 id 找到帖子
+        BmsPost topic = this.baseMapper.selectById(id);
+        // 如果没找到帖子，抛出异常
+        Assert.notNull(topic, "当前话题不存在,或已被作者删除");
+        // 查询话题详情
+        topic.setView(topic.getView() + 1); // 浏览量 + 1
+        this.baseMapper.updateById(topic); // 插入数据库
+
+        // emoji转码 ：如果帖子里有表情符号 做转码操作
+        topic.setContent(EmojiParser.parseToUnicode(topic.getContent()));
+        map.put("topic", topic);
+
+        // 标签
+        QueryWrapper<BmsTopicTag> wrapper = new QueryWrapper<>();
+        // 根据帖子 id 找到所有标签的对象
+        wrapper.lambda().eq(BmsTopicTag::getTopicId, topic.getId());
+        Set<String> set = new HashSet<>();
+        for (BmsTopicTag articleTag : IBmsTopicTagService.list(wrapper)) {
+            // 遍历标签集合 得到每个标签的 id，存到 set 集合里
+            set.add(articleTag.getTagId());
+        }
+        // 查找 id 集合对应的对象，放到 map 里返回
+        List<BmsTag> tags = iBmsTagService.listByIds(set); // set =  id 集合，
+        map.put("tags", tags);
+
+        // 获取 作者 信息
+        ProfileVO user = iUmsUserService.getUserProfile(topic.getUserId());
+        map.put("user", user);
+
+        return map;
+    }
 }
 
 
