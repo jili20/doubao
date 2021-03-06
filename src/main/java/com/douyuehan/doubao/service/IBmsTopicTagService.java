@@ -5,6 +5,7 @@ import com.douyuehan.doubao.model.entity.BmsTag;
 import com.douyuehan.doubao.model.entity.BmsTopicTag;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author bing  @create 2021/3/4-4:58 下午
@@ -33,7 +34,7 @@ public interface IBmsTopicTagService extends IService<BmsTopicTag> {
      * @param id
      * @return
      */
-//    Set<String> selectTopicIdsByTagId(String id);
+    Set<String> selectTopicIdsByTagId(String id);
 
 }
 

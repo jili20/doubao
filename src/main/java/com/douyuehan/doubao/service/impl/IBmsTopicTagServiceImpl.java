@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author bing  @create 2021/3/4-4:59 下午
@@ -47,9 +48,9 @@ public class IBmsTopicTagServiceImpl extends ServiceImpl<BmsTopicTagMapper, BmsT
         });
     }
 
-//    @Override
-//    public Set<String> selectTopicIdsByTagId(String id) {
-//        return this.baseMapper.getTopicIdsByTagId(id);
-//    }
+    @Override
+    public Set<String> selectTopicIdsByTagId(String id) {
+        return this.baseMapper.getTopicIdsByTagId(id);
+    }
 }
 
