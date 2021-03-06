@@ -1,16 +1,18 @@
 package com.douyuehan.doubao.controller;
 
 import com.douyuehan.doubao.common.api.ApiResult;
+import com.douyuehan.doubao.model.dto.CommentDTO;
+import com.douyuehan.doubao.model.entity.BmsComment;
+import com.douyuehan.doubao.model.entity.UmsUser;
 import com.douyuehan.doubao.model.vo.CommentVO;
 import com.douyuehan.doubao.service.IBmsCommentService;
 import com.douyuehan.doubao.service.IUmsUserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static com.douyuehan.doubao.jwt.JwtUtil.USER_NAME;
 
 /**
  * @author bing  @create 2021/3/6-12:01 下午
@@ -37,12 +39,19 @@ public class BmsCommentController extends BaseController {
         return ApiResult.success(lstBmsComment);
     }
 
-//    @PostMapping("/add_comment")
-//    public ApiResult<BmsComment> add_comment(@RequestHeader(value = USER_NAME) String userName,
-//                                             @RequestBody CommentDTO dto) {
-//        UmsUser user = umsUserService.getUserByUsername(userName);
-//        BmsComment comment = bmsCommentService.create(dto, user);
-//        return ApiResult.success(comment);
-//    }
+    /**
+     * 添加评论
+     * @param userName
+     * @param dto
+     * @return
+     */
+    @PostMapping("/add_comment")
+    public ApiResult<BmsComment> add_comment(@RequestHeader(value = USER_NAME) String userName,
+                                             @RequestBody CommentDTO dto) {
+        // 通过当前登录用户名 查到用户信息
+        UmsUser user = umsUserService.getUserByUsername(userName);
+        BmsComment comment = bmsCommentService.create(dto, user);// 拿到帖子 内容 id 用户 id
+        return ApiResult.success(comment);
+    }
 }
 
