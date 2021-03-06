@@ -108,4 +108,15 @@ public class UmsUserController extends BaseController {
         map.put("topics", page);
         return ApiResult.success(map);
     }
+
+    /**
+     * 用户修改个人信息
+     * @param umsUser
+     * @return
+     */
+    @PostMapping("/update")
+    public ApiResult<UmsUser> updateUser(@RequestBody UmsUser umsUser) {
+        iUmsUserService.updateById(umsUser);
+        return ApiResult.success(umsUser);
+    }
 }
